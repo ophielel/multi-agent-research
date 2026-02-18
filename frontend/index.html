@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Research - AI深度研究启动器</title>
+    <title>Deep Research - 多智能体协作研究</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,10 +16,10 @@
         <nav class="navbar">
             <div class="nav-container">
                 <div class="nav-brand">
-                    <div class="logo-icon">🔬</div>
+                    <div class="logo-icon">🤖</div>
                     <div class="brand-text">
-                        <h1>Deep Research</h1>
-                        <p class="subtitle">AI 深度研究启动器</p>
+                        <h1>Multi-Agent Research</h1>
+                        <p class="subtitle">多智能体协作深度研究</p>
                     </div>
                 </div>
                 <div class="nav-tabs">
@@ -45,10 +45,10 @@
             <section id="tab-research" class="tab-content active">
                 <div class="research-card">
                     <div class="card-header">
-                        <h2>开始新的深度研究</h2>
-                        <div class="card-badge">AI 驱动</div>
+                        <h2>开始多智能体研究</h2>
+                        <div class="card-badge">AI 协作</div>
                     </div>
-                    <p class="description">输入您想要研究的主题，AI 将自动进行多轮深度搜索和分析，生成完整的研究报告。</p>
+                    <p class="description">输入研究主题，多个智能体将协同完成深度研究工作。</p>
 
                     <div class="input-group">
                         <textarea id="research-topic" placeholder="例如：人工智能在医疗领域的应用现状与未来趋势..."></textarea>
@@ -57,20 +57,20 @@
                     <div class="quick-actions">
                         <button id="btn-start-research" class="btn btn-primary">
                             <span class="btn-icon">🚀</span>
-                            <span class="btn-text">开始研究</span>
-                            <span class="btn-loading">研究中...</span>
+                            <span class="btn-text">启动研究</span>
+                            <span class="btn-loading">多智能体协作中...</span>
                         </button>
                     </div>
 
-                    <!-- 研究进度 -->
+                    <!-- 多智能体进度 -->
                     <div id="research-progress" class="progress-section hidden">
                         <div class="progress-header">
-                            <h3>研究进行中</h3>
+                            <h3>多智能体协作研究进行中</h3>
                             <div class="progress-indicator">
-                                <div class="indicator-dot" id="dot-1"></div>
-                                <div class="indicator-dot" id="dot-2"></div>
-                                <div class="indicator-dot" id="dot-3"></div>
-                                <div class="indicator-dot" id="dot-4"></div>
+                                <div class="indicator-dot" id="dot-1" title="研究员智能体"></div>
+                                <div class="indicator-dot" id="dot-2" title="搜索员智能体"></div>
+                                <div class="indicator-dot" id="dot-3" title="分析员智能体"></div>
+                                <div class="indicator-dot" id="dot-4" title="报告员智能体"></div>
                             </div>
                         </div>
 
@@ -97,8 +97,8 @@
                     <div id="current-research" class="completion-section hidden">
                         <div class="completion-card">
                             <div class="completion-icon">✨</div>
-                            <h3>研究已完成</h3>
-                            <p>您的研究报告已生成完成</p>
+                            <h3>多智能体研究已完成</h3>
+                            <p>所有智能体已协同完成研究工作</p>
                             <button id="btn-view-report" class="btn btn-secondary">
                                 <span class="btn-icon">📄</span>
                                 <span class="btn-text">查看报告</span>
@@ -132,14 +132,14 @@
                 <div class="config-container">
                     <div class="section-header">
                         <h2>系统配置</h2>
-                        <div class="config-badge">API 设置</div>
+                        <div class="config-badge">AI 智能体</div>
                     </div>
 
                     <div class="config-form">
                         <div class="form-section">
                             <h3 class="section-title">
-                                <span class="title-icon">🔐</span>
-                                <span>API 配置</span>
+                                <span class="title-icon">🤖</span>
+                                <span>AI 配置</span>
                             </h3>
 
                             <div class="form-grid">
@@ -190,7 +190,7 @@
                                     <label>最大迭代次数</label>
                                     <div class="input-wrapper">
                                         <input type="number" id="config-max-iterations" class="form-input" value="5" min="1" max="20">
-                                        <span class="input-suffix">次</span>
+                                        <span class="input-suffix">轮</span>
                                     </div>
                                 </div>
 
@@ -223,7 +223,7 @@
                     <div class="modal-header">
                         <div class="modal-title-group">
                             <span class="modal-icon">📄</span>
-                            <h3 id="report-title">研究报告</h3>
+                            <h3 id="report-title">多智能体研究报告</h3>
                         </div>
                         <button class="modal-close-btn">
                             <span>✕</span>
@@ -244,12 +244,12 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Toast 通知 -->
-    <div id="toast" class="toast">
-        <span id="toast-icon">✓</span>
-        <span id="toast-message"></span>
+        <!-- Toast 通知 -->
+        <div id="toast" class="toast">
+            <span id="toast-icon">✓</span>
+            <span id="toast-message"></span>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>

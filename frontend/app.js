@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initTabs();
     initConfig();
     loadReports();
-    console.log('Deep Research Launcher 初始化完成');
+    console.log('🚀 多智能体协作研究系统初始化完成');
 });
 
 // ==================== 标签页切换 ====================
@@ -91,7 +91,7 @@ btnStartResearch.addEventListener('click', async () => {
 
             // 开始轮询状态
             startStatusCheck(result.researchId);
-            showToast('研究已启动，请稍候...', 'success');
+            showToast('多智能体研究已启动', 'success');
         } else {
             showToast(result.message || '启动失败', 'error');
             btnStartResearch.disabled = false;
@@ -132,7 +132,7 @@ function startStatusCheck(researchId) {
                 if (status.status === 'completed') {
                     currentResearchSection.classList.remove('hidden');
                     btnViewReport.onclick = () => viewReport(researchId);
-                    addLogEntry('✓ 研究完成！点击"查看报告"查看结果。');
+                    addLogEntry('✓ 多智能体研究完成！');
                     showToast('研究完成', 'success');
                     loadReports();
                 } else if (status.status === 'failed') {
@@ -157,26 +157,33 @@ function updateProgress(status) {
     }
 
     // 更新当前阶段
-    if (status.currentPhase) {
-        currentPhase.textContent = status.currentPhase;
-        addLogEntry(status.currentPhase);
+    if (status.phase) {
+        currentPhase.textContent = status.phase;
+        addLogEntry(status.phase);
     }
 
-    // 更新指示器点
+    // 更新指示器点（4个智能体阶段）
     if (status.progress !== undefined) {
-        const totalDots = 4;
-        const activeDots = Math.ceil((status.progress / 100) * totalDots);
-        for (let i = 1; i <= totalDots; i++) {
-            const dot = document.getElementById(`dot-${i}`);
-            if (dot) {
-                if (i <= activeDots) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
+        updateAgentIndicators(status);
+    }
+}
+
+// ==================== 更新智能体指示器 ====================
+function updateAgentIndicators(status) {
+    const phases = ['规划', '搜索', '分析', '报告'];
+    const progress = status.progress || 0;
+
+    phases.forEach((phase, index) => {
+        const dot = document.getElementById(`dot-${index + 1}`);
+        if (dot) {
+            const phaseProgress = (index + 1) * 25; // 每个阶段占 25%
+            if (progress >= phaseProgress) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
             }
         }
-    }
+    });
 }
 
 // ==================== 添加日志条目 ====================
@@ -251,7 +258,7 @@ function renderReportsList(reports) {
             </div>
             <div class="report-card-meta">
                 <span>${formatDate(report.timestamp)}</span>
-                ${report.progress !== undefined ? `<span>进度: ${report.progress}%</span>` : ''}
+                <span>${getPhaseLabel(report.phase)}</span>
             </div>
             <div class="report-card-actions">
                 <button class="btn btn-secondary" onclick="viewReport('${report.id}')">
@@ -267,6 +274,18 @@ function renderReportsList(reports) {
     `).join('');
 }
 
+function getPhaseLabel(phase) {
+    const phaseLabels = {
+        '制定研究计划...': '📋 规划',
+        '多智能体搜索中...': '🔍 搜索',
+        '多智能体分析中...': '🧠 分析',
+        '多智能体生成报告...': '📝 报告',
+        '研究完成': '✅ 完成',
+        'failed': '❌ 失败'
+    };
+    return phaseLabels[phase] || phase;
+}
+
 // ==================== 查看报告 ====================
 async function viewReport(reportId) {
     try {
@@ -280,7 +299,7 @@ async function viewReport(reportId) {
         const result = await response.json();
 
         if (result.success) {
-            reportTitle.textContent = '研究报告';
+            reportTitle.textContent = '多智能体研究报告';
             reportContent.innerHTML = marked.parse(result.content);
             reportModal.classList.add('active');
 
@@ -300,7 +319,7 @@ function downloadReport(content, reportId) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `research-report-${reportId}.md`;
+    a.download = `multi-agent-report-${reportId}.md`;
     a.click();
     URL.revokeObjectURL(url);
     showToast('报告已下载', 'success');
@@ -419,12 +438,10 @@ document.querySelectorAll('.modal-close-btn').forEach(btn => {
     });
 });
 
-// 点击遮罩层也可以关闭
 document.querySelector('.modal-overlay')?.addEventListener('click', () => {
     reportModal.classList.remove('active');
 });
 
-// ESC 键关闭模态框
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && reportModal.classList.contains('active')) {
         reportModal.classList.remove('active');
